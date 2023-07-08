@@ -7,18 +7,18 @@ public class BulletBehavior : MonoBehaviour
 {
     public float speed = 10f;
     public Rigidbody rb;
-    // Start is called before the first frame update
+
     void Start()
     {
-        rb.velocity = -transform.right * speed;
+        rb.velocity = -transform.right * speed; // move the bullet object to left
     }
     
-    void OnBecameInvisible()
+    void OnBecameInvisible() // destroy when out of screen
     {
         Destroy(gameObject);
     }
 
-    void TriggerHit()
+    void TriggerHit() // destroy when hit on enemy
     {
         Destroy(gameObject);
     }

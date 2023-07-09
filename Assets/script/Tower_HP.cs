@@ -5,10 +5,11 @@ using TMPro;
 
 public class Tower_HP : MonoBehaviour
 {
-    public int MaxHP = 1000;
+    public float MaxHP = 1000;
     public TextMeshPro HP;
+    public float CurrentHP;
 
-    private int CurrentHP;
+    private bool win = true;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +17,20 @@ public class Tower_HP : MonoBehaviour
         CurrentHP = MaxHP;
     }
 
-    // Update is called once per frame
+    public void TakeDamage(float damageAmount)
+    {
+        CurrentHP -= damageAmount;
+    }
+
     void Update()
     {
-        HP.text = CurrentHP.ToString() + " / " + MaxHP;
+        GameManage gameManage = FindObjectOfType<GameManage>();
+
+        if (CurrentHP <= 0)
+        {
+            gameManage.gameOver(win);
+        }
+
+        HP.text = CurrentHP + " / " + MaxHP;
     }
 }

@@ -8,11 +8,11 @@ public class BulletBehavior : MonoBehaviour
     public float speed = 10f;
     public int Dmg = 5;
 
-    public Rigidbody rb;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        rb.velocity = -transform.right * speed; // move the bullet object to left
+        rb.velocity = -transform.right * speed; // move the bullet object to the left
     }
     
     void OnBecameInvisible() // destroy when out of screen
@@ -20,8 +20,18 @@ public class BulletBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void TriggerHit() // destroy when hit on enemy
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            EnemyHealth enemyHealth = other.gameObject.GetComponent<EnemyHealth>();
+
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(Dmg);
+            }
+
+            Destroy(gameObject);
+        }
     }
 }

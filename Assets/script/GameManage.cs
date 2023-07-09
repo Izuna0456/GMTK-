@@ -7,10 +7,11 @@ public class GameManage : MonoBehaviour
 {
     public TextMeshProUGUI GameOverTextPrefab;
     public TextMeshProUGUI Timer;
-    public RectTransform canvasRectTransform; // Reference to the canvas's RectTransform
+    private RectTransform canvasRectTransform; // Reference to the canvas's RectTransform
 
     public float TotalTime = 5f;
-    private bool lose = false;
+    private bool win = false;
+    private bool end = false;
 
     private void Update()
     {
@@ -21,21 +22,27 @@ public class GameManage : MonoBehaviour
         
         Timer.text = TotalTime.ToString("F2");
 
-        if (TotalTime <= 0 && !lose)
+        if (TotalTime <= 0 && end == false)
         {
-            gameOver();
-            lose = true;
+            gameOver(!win);
+            end = true;
         }
     }
 
-    private void gameOver()
+    public void gameOver(bool win)
     {
-        GameOverTextPrefab.text = "Game Over";
+        if(!win)
+        {
+            GameOverTextPrefab.text = "Game Over";
+        }
+        else
+        {
+            GameOverTextPrefab.text = "You Win";
+        }
 
         // Spawn GameOverText at the center of the canvas
         TextMeshProUGUI gameOverText = Instantiate(GameOverTextPrefab, canvasRectTransform);
         RectTransform gameOverRectTransform = gameOverText.rectTransform;
         gameOverRectTransform.localPosition = Vector3.zero;
-
     }
 }

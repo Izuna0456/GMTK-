@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Tower_HP : MonoBehaviour
 {
     public int MaxHP = 1000;
     public TextMeshPro HP;
@@ -19,6 +19,6 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HP.text = CurrentHP.ToString(); 
+        HP.text = CurrentHP.ToString() + " / " + MaxHP;
     }
 }

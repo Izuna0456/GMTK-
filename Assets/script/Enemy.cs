@@ -7,8 +7,8 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float attackDamage;
     public float attackSpeed;
-    public float canAttack;
-
+    
+    private float canAttack;
     private bool stopMove = false;
 
     public Rigidbody2D rb;

@@ -13,20 +13,12 @@ public class TowerAttack : MonoBehaviour
     public float attackRange; // The range at which the tower will start shooting
     public float upgradeTime = 30f;
 
-    private int bulletDmg = 0; // Declare bulletDmg as a class-level field and assign an initial value
-
     private float shootTime;
     private int upState = 0;
     private bool isAttacking = false; // Flag to track if the tower is attacking
 
     private void Start()
     {
-        BulletBehavior bh = FindObjectOfType<BulletBehavior>();
-        if (bh != null)
-        {
-            bulletDmg = bh.Dmg;
-        }
-
         StartCoroutine(UpgradeCoroutine());
     }
 
@@ -39,40 +31,42 @@ public class TowerAttack : MonoBehaviour
         }
     }
 
-    private void Update()
+private void Update()
+{
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+
+    bool foundEnemyInRange = false; // Flag to track if an enemy is within range
+
+    foreach (GameObject enemy in enemies)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag); // Find all objects with the specified tag
+        float distanceToTower = Vector3.Distance(transform.position, enemy.transform.position);
+        float distanceAbs = Mathf.Abs(distanceToTower);
 
-        foreach (GameObject enemy in enemies)
+        if (distanceAbs <= attackRange)
         {
-            float distanceToTower = Vector3.Distance(transform.position, enemy.transform.position);
-            float distanceAbs = Math.Abs(distanceToTower);
-
-            if (distanceAbs <= attackRange) // Tower is within range to attack the enemy
-            {
-                isAttacking = true;
-                break;
-            }
-            else
-            {
-                isAttacking = false;
-            }
-        }
-
-        if (isAttacking)
-        {
-            if (shootTime >= atkTime)
-            {
-                Instantiate(Bullet, FirePoint.position, FirePoint.rotation);
-                shootTime = 0f;
-            }
-
-            shootTime += Time.deltaTime;
+            foundEnemyInRange = true;
+            break;
         }
     }
 
+    isAttacking = foundEnemyInRange; // Update the isAttacking flag based on whether an enemy is within range or not
+
+    if (isAttacking)
+    {
+        if (shootTime >= atkTime)
+        {
+            Instantiate(Bullet, FirePoint.position, FirePoint.rotation);
+            shootTime = 0f;
+        }
+
+        shootTime += Time.deltaTime;
+    }
+}
+
     public void upgrade()
     {
+        BulletBehavior bh = FindObjectOfType<BulletBehavior>();
+
         if (upState != 5)
         {
             if (upState == 0 || upState == 3)
@@ -85,7 +79,10 @@ public class TowerAttack : MonoBehaviour
             }
             if (upState == 2 || upState == 5)
             {
-                bulletDmg += 3;
+                if (bh != null)
+                {
+                    bh.Dmg += 3;
+                }
             }
 
             upState++;

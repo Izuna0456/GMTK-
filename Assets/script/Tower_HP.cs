@@ -5,7 +5,7 @@ using TMPro;
 
 public class Tower_HP : MonoBehaviour
 {
-    public float MaxHP = 1000;
+    public float MaxHP = 1000; 
     public TextMeshPro HP;
     public float CurrentHP;
 

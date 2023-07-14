@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            stopMove = true; // Stop the enemy from moving
+            stopMove = true; // Stop the enemy from moving 
             rb.velocity = Vector2.zero; // Set the enemy's velocity to zero
 
         }

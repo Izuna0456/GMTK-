@@ -133,7 +133,6 @@ MonoBehaviour:
   speed: 3
   attackDamage: 5
   attackSpeed: 1
-  canAttack: 0
   rb: {fileID: -4749870253248411125}
 --- !u!50 &-4749870253248411125
 Rigidbody2D:

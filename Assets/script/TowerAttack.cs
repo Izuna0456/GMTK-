@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class TowerAttack : MonoBehaviour
 {
     public Transform FirePoint;
     public GameObject Bullet;
+    public AudioSource shootsfx;
     public string enemyTag = "Enemy"; // Tag to identify enemy objects
     public float atkTime = 1.5f; // Shot every 1.5 sec
     public float attackRange; // The range at which the tower will start shooting
@@ -55,6 +57,7 @@ private void Update()
     {
         if (shootTime >= atkTime)
         {
+            shootsfx.Play();
             Instantiate(Bullet, FirePoint.position, FirePoint.rotation);
             shootTime = 0f;
         }

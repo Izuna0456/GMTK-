@@ -7,11 +7,13 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float attackDamage;
     public float attackSpeed;
+    public int cost;
     
     private float canAttack;
     private bool stopMove = false;
 
     public Rigidbody2D rb;
+    public AudioSource atkSfx;
 
     void Update()
     {
@@ -27,6 +29,7 @@ public class Enemy : MonoBehaviour
             {
                 if (attackSpeed <= canAttack)
                 {
+                    atkSfx.Play();
                     tower_HP.TakeDamage(attackDamage);
                     canAttack = 0f;
                 }

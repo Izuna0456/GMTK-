@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float attackDamage;
     public float attackSpeed;
-    public int cost;
     
     private float canAttack;
     private bool stopMove = false;

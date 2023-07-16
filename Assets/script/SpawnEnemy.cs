@@ -16,6 +16,13 @@ public class SpawnEnemy : MonoBehaviour
 
     public Transform spawnPoint;
 
+    private EnergyBar energyBar;
+
+    private void Start()
+    {
+        energyBar = FindObjectOfType<EnergyBar>();
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -23,26 +30,62 @@ public class SpawnEnemy : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
 
-            if (hit.collider != null && hit.collider.gameObject == objectPrefab)
+            if (hit.collider != null)
             {
-                Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            }
-            if (hit.collider != null && hit.collider.gameObject == objectPrefab2)
-            {
-                Instantiate(enemyPrefab2, spawnPoint.position, spawnPoint.rotation);
-            }
-            if (hit.collider != null && hit.collider.gameObject == objectPrefab3)
-            {
-                Instantiate(enemyPrefab3, spawnPoint.position, spawnPoint.rotation);
-            }
-            if (hit.collider != null && hit.collider.gameObject == objectPrefab4)
-            {
-                Instantiate(enemyPrefab4, spawnPoint.position, spawnPoint.rotation);
-            }
-            if (hit.collider != null && hit.collider.gameObject == objectPrefab5)
-            {
-                Instantiate(enemyPrefab5, spawnPoint.position, spawnPoint.rotation);
+                if (energyBar.CurrentEnergy > GetEnemyCost(hit.collider.gameObject))
+                {
+                    if (hit.collider.gameObject == objectPrefab)
+                    {
+                        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                    }
+                    else if (hit.collider.gameObject == objectPrefab2)
+                    {
+                        Instantiate(enemyPrefab2, spawnPoint.position, spawnPoint.rotation);
+                    }
+                    else if (hit.collider.gameObject == objectPrefab3)
+                    {
+                        Instantiate(enemyPrefab3, spawnPoint.position, spawnPoint.rotation);
+                    }
+                    else if (hit.collider.gameObject == objectPrefab4)
+                    {
+                        Instantiate(enemyPrefab4, spawnPoint.position, spawnPoint.rotation);
+                    }
+                    else if (hit.collider.gameObject == objectPrefab5)
+                    {
+                        Instantiate(enemyPrefab5, spawnPoint.position, spawnPoint.rotation);
+                    }
+
+                    energyBar.CurrentEnergy -= GetEnemyCost(hit.collider.gameObject);
+                }
             }
         }
+    }
+
+    private int GetEnemyCost(GameObject ObjectPrefab)
+    {
+
+        if (ObjectPrefab == objectPrefab)
+        {
+            return 1;
+        }
+        else if (ObjectPrefab == objectPrefab2)
+        {
+            return 2;
+        }
+        else if (ObjectPrefab == objectPrefab3)
+        {
+            return 3;
+        }
+        else if (ObjectPrefab == objectPrefab4)
+        {
+            return 3;
+        }
+        else if (ObjectPrefab == objectPrefab5)
+        {
+            return 4;
+        }
+
+        
+        return 0;
     }
 }
